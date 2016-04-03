@@ -13,9 +13,10 @@
 	</head>
 	
 
-	<body style="overflow:hidden">
-		<div id = "particles-js">
-		<div ><img src="{{ url_for('static',filename='logo.png') }}" style="width:75px;margin-top:5px;margin-left:22px;"><br><b><div style="font-size:150%;">&nbsp;&nbsp;Tuts-Robo</div></b></div>
+	<body style="overflow:hidden;">
+		<div>
+		<div id = "particles-js"></div>
+		<div ><img src="{{ url_for('static',filename='logo.png') }}" style="width:75px;margin-top:5px;margin-left:22px;"><br><b><div style="font-size:150%;z-index:0;color:white;">&nbsp;&nbsp;Tuts-Robo</div></b></div>
 		<div>
 		<div style="left:30%;top:0;position:absolute">
 			<div class="custom-file-upload">
@@ -26,7 +27,9 @@
 			</div>
 		</div>
 		<button type="button" class="file-upload-button" onclick="javascript:play_video()" style="position:absolute;top:28px;right:300px;margin-left:15px;">Play Video</button>
+		<a href="/editor/"class="btn btn-danger hackide"  style="position:absolute;top:30px;right:100px;margin-left:15px;color:white">Try Code Editor</a>
 		</div>
+
 		<br/>
 		
 			<div class="row">	
@@ -35,7 +38,7 @@
 					<div class="col-md-1"></div>
 					<div class="col-md-6">
 						<video style="display:none;" id='video' width="700" height="450" controls autoplay>
-							<source src="{{ url_for('static', filename='2.mp4') }}" type="video/mp4" >
+							<source src="{{ url_for('static', filename='3.mp4') }}" type="video/mp4" >
 							No Video Found
 						</video>
 					</div>
@@ -46,30 +49,31 @@
 				
 				<div class="col-md-4" style="max-height:100%;">
 					<form action="/code/" method="POST" name="code">
-					<center><div style="font-color:white;font-size:200%;">INPUT</div></center><br>
+					<center><div style="color:white;font-size:200%;z-index:0;">INPUT</div></center><br>
 					<div class="row">
 					<div class="col-md-5">
 					<input class="btn btn-danger" type="submit" value="Compile">
 					</div>
-					<div class="col-md-4" style="padding-bottom:5px"><h3>Lang : {{ lang }}</h3></div>
-					<textarea name="input" rows="7" cols="60">{{ input1 }}</textarea>
+					<div class="col-md-4" style="padding-bottom:5px;color:white;z-index:0"><h3>Lang : {{ lang }}</h3></div>
+					<textarea name="input" rows="5" cols="40" style="font-size:150%;z-index:0;">{{ input1 }}</textarea>
 
 					</form>
-					<center><div style="font-color:white;font-size:200%;">OUTPUT</div></center><br>
-					<textarea name="output" rows="7" cols="60">{{ output }}</textarea>
+					<center><div style="color:white;font-size:200%;z-index:0;">OUTPUT</div></center><br>
+					<textarea name="output" rows="5" cols="40" style="font-size:150%">{{ output }}</textarea>
 
 				</div>
 				
 				<div class="col-md-1"></div>
 			</div>
 
-		
-			<div class="" id="capture" style="display:none;position:absolute;bottom:5%;left:25%;">
+			<br/>
+			<br>
+			<div class="" id="capture" style="display:none;position:absolute;bottom:-15px;left:25%;">
 				<form action="" method="post" name="captcha">
 					<input type="submit" value="Capture" type="button" class="file-upload-button" >
 				</form>
 			</div>
-
+		</div>
 		<script>
 			function play_video(){
 				form = document.forms['addvideo'];
@@ -88,6 +92,5 @@
 		<script src='http://cdnjs.cloudflare.com/ajax/libs/jsquery/2.1.3/jquery.min.js'></script>
 		<script src="{{ url_for('static' , filename = 'javascript.js') }}"></script>
 		<script src="{{ url_for('static' , filename = 'index.js') }}"></script>
-		</div>
 	</body>
 </html> 

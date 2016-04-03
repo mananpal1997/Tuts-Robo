@@ -1,7 +1,7 @@
 import time, cv2, pytesseract, requests
 from click import *
 from PIL import Image
-from flask import Flask, render_template, request
+from flask import *
 
 app = Flask(__name__)
 
@@ -24,7 +24,7 @@ def capture():
         if('include' in x and 'std::' not in x and 'namespace' not in x):
                 lang = 'C'
         elif('include' in x):
-                lang = 'C++'
+                lang = 'CPP'
         elif('php' in x):
                 lang = 'PHP'
         elif('func main' in x):
@@ -34,7 +34,7 @@ def capture():
         elif('write' in x or 'writeln' in x):
                 lang = 'PERL'
         elif('using System' in x):
-                lang = 'C#'
+                lang = 'CSHARP'
         else:
                 lang = 'JAVA'
         def fix(x):
@@ -48,7 +48,7 @@ def capture():
                                 else:
                                         x = x.replace(x[a],'l')
                         x = x[2:len(x)]
-                elif(lang == 'C#'):
+                elif(lang == 'CSHARP'):
                         x = x.replace('Tolnt','ToInt')
                 elif(lang == 'GO' or lang == 'RUBY'):
                         x = x.replace('|','l')
@@ -83,7 +83,7 @@ def doit():
         if('include' in x and 'std::' not in x and 'namespace' not in x):
                 lang = 'C'
         elif('include' in x):
-                lang = 'C++'
+                lang = 'CPP'
         elif('php' in x):
                 lang = 'PHP'
         elif('func main' in x):
@@ -93,9 +93,10 @@ def doit():
         elif('write' in x or 'writeln' in x):
                 lang = 'PERL'
         elif('using System' in x):
-                lang = 'C#'
+                lang = 'CSHARP'
         else:
                 lang = 'JAVA'
+        x = x.decode('utf-8')
         data = {
             'client_secret': CLIENT_SECRET,
             'async': 0,
@@ -115,6 +116,37 @@ def doit():
         output = output.decode('utf-8')
 
         return render_template('index.html',lang=lang,input1 = x, output = output)
+
+@app.route('/editor/')
+def show():
+        return render_template('editor.html')
+
+@app.route('/compile/',methods=["POST"])
+def run():
+        lang = str(request.form.get('stock'))
+        lang = lang.decode('utf-8')
+        x = request.form.get('input1')
+        x = str(x)
+        x = x.decode('utf-8')
+        data = {
+                'client_secret': CLIENT_SECRET,
+                'async': 0,
+                'source': x,
+                'lang': lang,
+                'time_limit': 5,
+                'memory_limit': 262144,
+        }
+        r = requests.post(RUN_URL, data=data)
+        out = r.json()
+        next_out = out['run_status']
+        output = ''
+        for element in next_out:
+                if(element != 'output_html'):
+                        output += (str(element)+' : '+str(next_out[element]))
+                        output += '\n'
+        output = output.decode('utf-8')
+
+        return render_template('editor.html',input1 = x, output = output)
 
 if __name__=="__main__":
         app.run(debug = True)

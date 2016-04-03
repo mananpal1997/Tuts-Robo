@@ -1,6 +1,7 @@
 /* ---- reset ---- */
 body {
   height:500%;
+  position:relative;
   margin: 0;
   font:normal 75% Arial, Helvetica, sans-serif;
 }
@@ -13,10 +14,13 @@ canvas {
 /* ---- particles.js container ---- */
 
 #particles-js {
+  z-index:-100;
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(155, 155, 200);
+  min-width: 100%;
+  min-height: 100%;
+  top:0px;
+  left:0px;
+  background-color: rgb(50, 50, 50);
   background-image: url("");
   background-repeat: no-repeat;
   background-size: cover;
