@@ -123,7 +123,7 @@ def show():
 
 @app.route('/compile/',methods=["POST"])
 def run():
-        lang = str(request.form.get('stock'))
+        lang = str(request.form.get('language'))
         lang = lang.decode('utf-8')
         x = request.form.get('input1')
         x = str(x)
